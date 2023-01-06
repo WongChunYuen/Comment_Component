@@ -18,13 +18,15 @@
                         <br>
                         <p>@comment</p>
                             @if (NewText == comment){
-                                <form method="post" @onsubmit="SaveComment">
                                     <span>---------------------------------------</span>
                                     <span>Edit</span>
                                     <textarea style="width: 210px;" id="text" @bind="@Text" required></textarea>
                                     <br />
-                                    <button type="submit" style="border: 0;">Save</button>
-                                </form>}
+                            <div style="display: flex;">
+                                <button @onclick="SaveComment" type="submit" style="flex: 1;">Save</button>
+                                <button @onclick="CancelEdit" type="submit" style="flex: 1;">Cancel</button>
+                            </div>
+                                }
                     </div>
                 </div>
                 }
@@ -61,10 +63,22 @@
 
     private void SaveComment()
     {
-        // Update the comment in the comments list with the new text
-        int index = comments.IndexOf(NewText);
-        comments[index] = Text;
-        Text = "";
+        if (@Text == "")
+        {
+            CancelEdit();
+        }
+        else
+        {// Update the comment in the comments list with the new text
+            int index = comments.IndexOf(NewText);
+            comments[index] = Text;
+            Text = "";
+            NewText = "";
+        }
+        
+    }
+
+    private void CancelEdit()
+    {
         NewText = "";
     }
 }
